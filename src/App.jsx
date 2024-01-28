@@ -4,6 +4,16 @@ import { useMovies } from './useMovies.jsx';
 import { useLocalStorageState } from './useLocalStorageState.jsx';
 import { useKey } from './useKey.jsx';
 
+import CancelIcon from '@mui/icons-material/Cancel';
+import ArrowCircleLeftOutlinedIcon from '@mui/icons-material/ArrowCircleLeftOutlined';
+import NumbersIcon from '@mui/icons-material/Numbers';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+import HourglassEmptyIcon from '@mui/icons-material/HourglassEmpty';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+
 const average = (arr) =>
 	arr.reduce((acc, cur, i, arr) => acc + cur / arr.length, 0);
 
@@ -139,7 +149,11 @@ function Box({ children }) {
 	return (
 		<div className="box">
 			<button className="btn-toggle" onClick={() => setIsOpen((open) => !open)}>
-				{isOpen ? '–' : '+'}
+				{isOpen ? (
+					<RemoveCircleOutlineIcon className="iconActive" fontSize="large" />
+				) : (
+					<AddCircleOutlineIcon className="iconActive" fontSize="large" />
+				)}
 			</button>
 
 			{isOpen && children}
@@ -164,7 +178,7 @@ function Movie({ movie, onSelectMovie }) {
 			<h3>{movie.Title}</h3>
 			<div>
 				<p>
-					<span>🗓</span>
+					<CalendarMonthIcon className="icon" />
 					<span>{movie.Year}</span>
 				</p>
 			</div>
@@ -248,9 +262,12 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 			) : (
 				<>
 					<header>
-						<button className="btn-back" onClick={onCloseMovie}>
-							&larr;
-						</button>
+						<ArrowCircleLeftOutlinedIcon
+							fontSize="large"
+							className="btn-back"
+							onClick={onCloseMovie}
+						/>
+
 						<img src={poster} alt={`Poster of ${movie} movie`} />
 						<div className="details-overview">
 							<h2>{title}</h2>
@@ -280,7 +297,7 @@ function MovieDetails({ selectedId, onCloseMovie, onAddWatched, watched }) {
 							) : (
 								<p>
 									You rated this movie: {watchedUserRating}
-									<span>🌟</span>
+									<StarBorderIcon className="icon" />
 								</p>
 							)}
 						</div>
@@ -306,20 +323,20 @@ function WatchedSummary({ watched }) {
 			<h2>Movies you watched</h2>
 			<div>
 				<p>
-					<span>#️⃣</span>
+					<NumbersIcon className="icon" />
 					<span>{watched.length} movies</span>
 				</p>
 				<p>
-					<span>⭐️</span>
+					<StarIcon className="icon" />
 					<span>{avgImdbRating.toFixed(2)}</span>
 				</p>
 				<p>
-					<span>🌟</span>
+					<StarBorderIcon className="icon" />
 					<span>{avgUserRating.toFixed(2)}</span>
 				</p>
 				<p>
-					<span>⏳</span>
-					<span>{avgRuntime} min</span>
+					<HourglassEmptyIcon className="icon" />
+					<span>{avgRuntime.toFixed(2)} min</span>
 				</p>
 			</div>
 		</div>
@@ -347,23 +364,23 @@ function WatchedMovie({ movie, onDeleteWatched }) {
 			<h3>{movie.title}</h3>
 			<div>
 				<p>
-					<span>⭐️</span>
+					<StarIcon className="icon" />
 					<span>{movie.imdbRating}</span>
 				</p>
 				<p>
-					<span>🌟</span>
+					<StarBorderIcon className="icon" />
 					<span>{movie.userRating}</span>
 				</p>
 				<p>
-					<span>⏳</span>
+					<HourglassEmptyIcon className="icon" />
 					<span>{movie.runtime} min</span>
 				</p>
-				<button
+
+				<CancelIcon
+					fontSize="large"
 					className="btn-delete"
 					onClick={() => onDeleteWatched(movie.imdbID)}
-				>
-					X
-				</button>
+				/>
 			</div>
 		</li>
 	);
